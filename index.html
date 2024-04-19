@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font: 400 15px/1.8 "Lato", sans-serif;
+            color: #777;
+        }
+
+        .bgimg-1,
+        .bgimg-2,
+        .bgimg-3,
+        .bgimg-4 {
+            position: relative;
+            opacity: 0.65;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+
+        }
+
+        .bgimg-1 {
+            background-image: url("assets/natasha.PNG");
+            min-height: 100%;
+        }
+
+        .bgimg-2 {
+            background-image: url("assets/wawen_x_natasha.jpeg");
+            min-height: 100%;
+            background-position: center top;
+        }
+
+        .bgimg-3 {
+            background-image: url("assets/marvel_x_dc.JPG");
+            min-height: 100%;
+        }
+
+        .bgimg-4 {
+            background-image: url("assets/billionaire.jpg");
+            min-height: 100%;
+        }
+
+        .caption {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            text-align: center;
+            color: #000;
+        }
+
+        .caption span.border {
+            background-color: #111;
+            color: #fff;
+            padding: 18px;
+            font-size: 25px;
+            letter-spacing: 10px;
+        }
+
+        .slidShowCaption {
+            position: absolute;
+            left: 0;
+            top: 5%;
+            width: 100%;
+            z-index: 999;
+            text-align: center;
+            color: #000;
+        }
+
+        .slidShowCaption span.border {
+            background-color: #3b3939;
+            color: #fff;
+            padding: 18px;
+            font-size: 25px;
+            letter-spacing: 10px;
+        }
+
+        h3 {
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font: 20px "Lato", sans-serif;
+            color: #111;
+        }
+
+        .writerSlides,
+        .gamerSlides {
+            display: none
+        }
+
+        img {
+            vertical-align: middle;
+        }
+
+        /* Slideshow container */
+        .slideshow-container {
+            max-width: 1000px;
+            position: relative;
+            margin: auto;
+        }
+
+        /* Next & previous buttons */
+        .prev,
+        .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+
+        /* Position the "next button" to the right */
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        /* On hover, add a black background color with a little bit see-through */
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Caption text */
+        .text {
+            color: #f2f2f2;
+            font-size: 15px;
+            padding: 8px 12px;
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Number text (1/3 etc) */
+        .numbertext {
+            color: #f2f2f2;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
+
+        /* The dots/bullets/indicators */
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .active,
+        .dot:hover {
+            background-color: #717171;
+        }
+
+        /* Fading animation */
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: .4
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        /* On smaller screens, decrease text size */
+        @media only screen and (max-width: 300px) {
+
+            .prev,
+            .next,
+            .text {
+                font-size: 11px
+            }
+        }
+
+        /* Turn off parallax scrolling for tablets and phones */
+        @media only screen and (max-device-width: 1024px) {
+
+            .bgimg-1,
+            .bgimg-2,
+            .bgimg-3 {
+                background-attachment: scroll;
+            }
+        }
+    </style>
+    <script>
+        let writerSlideIndex = 1;
+        let gamerSlideIndex = 1;
+
+        (function () {
+            writerSlide(writerSlideIndex);
+            gamerSlide(gamerSlideIndex);
+        });
+
+        function writerSlide(index){
+            showSlides(index, writerSlideIndex, "writerSlides");
+        }
+
+        function plusWriterSlide(n){
+            showSlides(writerSlideIndex += n, writerSlideIndex, "writerSlides");
+        }
+
+        function currentWriterSlide(n){
+            showSlides(writerSlideIndex = n, writerSlideIndex, "writerSlides");
+        }
+
+        function gamerSlide(index){
+            showSlides(index, gamerSlideIndex, "gamerSlides");
+        }
+
+        function plusGamerSlides(n) {
+            showSlides(gamerSlideIndex += n, gamerSlideIndex, "gamerSlides");
+        }
+
+        function currentGamerSlide(n) {
+            showSlides(gamerSlideIndex = n, gamerSlideIndex, "gamerSlides");
+        }
+
+        function showSlides(n, slideIndex, slideClassName) {
+            let i;
+            let slides = document.getElementsByClassName(slideClassName);
+            let dots = document.getElementsByClassName("dot");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+        }
+    </script>
+</head>
+
+<body>
+
+    <div class="bgimg-1">
+        <div class="caption">
+            <span class="border">WELCOME!</span>
+        </div>
+    </div>
+
+    <div class="bgimg-2">
+        <div class="caption">
+            <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">Hi, My name is
+                Selwyn.</span>
+        </div>
+    </div>
+
+    <div style="position:relative;">
+        <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;">
+            <div class="slidShowCaption">
+                <span class="border">I LOVE WRITING!</span>
+            </div>
+            <div class="slideshow-container">
+
+                <div class="writerSlides fade" style="display: block;">
+                    <div class="numbertext">1 / 7</div>
+                    <img src="assets/writer_portfolio/62324D23-3466-4299-8BFC-B3CD5A027A17.jpeg" style="width:100%">
+                </div>
+
+                <div class="writerSlides fade">
+                    <div class="numbertext">2 / 7</div>
+                    <img src="assets/writer_portfolio/B98B5BE3-FC00-4A0C-A035-324259C9F712.jpeg" style="width:100%">
+                </div>
+
+                <div class="writerSlides fade">
+                    <div class="numbertext">3 / 7</div>
+                    <img src="assets/writer_portfolio/IMG_2070.PNG" style="width:100%">
+                </div>
+
+                <div class="writerSlides fade">
+                    <div class="numbertext">4 / 7</div>
+                    <img src="assets/writer_portfolio/IMG_2071.PNG" style="width:100%">
+                </div>
+
+                <div class="writerSlides fade">
+                    <div class="numbertext">5 / 7</div>
+                    <img src="assets/writer_portfolio/IMG_2072.PNG" style="width:100%">
+                </div>
+
+                <div class="writerSlides fade">
+                    <div class="numbertext">6 / 7</div>
+                    <img src="assets/writer_portfolio/IMG_2073.PNG" style="width:100%">
+                </div>
+
+                <div class="writerSlides fade">
+                    <div class="numbertext">7 / 7</div>
+                    <img src="assets/writer_portfolio/IMG_2074.PNG" style="width:100%">
+                </div>
+
+                <a class="prev" onclick="plusWriterSlide(-1)">❮</a>
+                <a class="next" onclick="plusWriterSlide(1)">❯</a>
+            </div>
+            <br>
+
+            <div style="text-align:center">
+                <span class="dot" onclick="currentWriterSlide(1)"></span>
+                <span class="dot" onclick="currentWriterSlide(2)"></span>
+                <span class="dot" onclick="currentWriterSlide(3)"></span>
+                <span class="dot" onclick="currentWriterSlide(4)"></span>
+                <span class="dot" onclick="currentWriterSlide(5)"></span>
+                <span class="dot" onclick="currentWriterSlide(6)"></span>
+                <span class="dot" onclick="currentWriterSlide(7)"></span>
+            </div>
+        </div>
+    </div>
+
+    <div style="position:relative;">
+        <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;">
+            <div class="slidShowCaption">
+                <span class="border">I'M ALSO A GAMER.</span>
+            </div>
+            <div class="slideshow-container">
+
+                <div class="gamerSlides fade" style="display: block;">
+                    <div class="numbertext">1 / 10</div>
+                    <img src="assets/gamer_portfolio/IMG_2082.JPG" style="width:100%">
+                </div>
+
+                <div class="gamerSlides fade">
+                    <div class="numbertext">2 / 10</div>
+                    <img src="assets/gamer_portfolio/IMG_2083.JPG" style="width:100%">
+                </div>
+
+                <div class="gamerSlides fade">
+                    <div class="numbertext">3 / 10</div>
+                    <img src="assets/gamer_portfolio/IMG_2084.JPG" style="width:100%">
+                </div>
+
+                <div class="gamerSlides fade">
+                    <div class="numbertext">4 / 10</div>
+                    <img src="assets/gamer_portfolio/IMG_2085.PNG" style="width:100%">
+                </div>
+
+                <div class="gamerSlides fade">
+                    <div class="numbertext">5 / 10</div>
+                    <img src="assets/gamer_portfolio/IMG_2086.PNG" style="width:100%">
+                </div>
+
+                <div class="gamerSlides fade">
+                    <div class="numbertext">6 / 10</div>
+                    <img src="assets/gamer_portfolio/IMG_2087.PNG" style="width:100%">
+                </div>
+
+                <div class="gamerSlides fade">
+                    <div class="numbertext">7 / 10</div>
+                    <img src="assets/gamer_portfolio/IMG_2088.JPG" style="width:100%">
+                </div>
+
+                <div class="gamerSlides fade">
+                    <div class="numbertext">8 / 10</div>
+                    <img src="assets/gamer_portfolio/IMG_2089.JPG" style="width:100%">
+                </div>
+
+                <div class="gamerSlides fade">
+                    <div class="numbertext">9 / 10</div>
+                    <img src="assets/gamer_portfolio/IMG_2090.JPG" style="width:100%">
+                </div>
+
+                <div class="gamerSlides fade">
+                    <div class="numbertext">10 / 10</div>
+                    <img src="assets/gamer_portfolio/IMG_2091.JPG" style="width:100%">
+                </div>
+
+                <a class="prev" onclick="plusGamerSlides(-1)">❮</a>
+                <a class="next" onclick="plusGamerSlides(1)">❯</a>
+            </div>
+            <br>
+
+            <div style="text-align:center">
+                <span class="dot" onclick="currentGamerSlide(1)"></span>
+                <span class="dot" onclick="currentGamerSlide(2)"></span>
+                <span class="dot" onclick="currentGamerSlide(3)"></span>
+                <span class="dot" onclick="currentGamerSlide(4)"></span>
+                <span class="dot" onclick="currentGamerSlide(5)"></span>
+                <span class="dot" onclick="currentGamerSlide(6)"></span>
+                <span class="dot" onclick="currentGamerSlide(7)"></span>
+                <span class="dot" onclick="currentGamerSlide(8)"></span>
+                <span class="dot" onclick="currentGamerSlide(9)"></span>
+                <span class="dot" onclick="currentGamerSlide(10)"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="bgimg-3">
+        <div class="caption">
+            <span class="border" >A proud fan of both MCU and DC.</span>
+        </div>
+    </div>
+
+    <div class="bgimg-4">
+        <div class="caption">
+            <span class="border">Finally, an aspiring Billionaire!</span>
+        </div>
+    </div>
+
+</body>
+
+</html>
